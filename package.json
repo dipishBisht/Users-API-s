@@ -8,7 +8,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": ["rest", "api", "tutorial", "express", "node"],
-  "author": "Your Name",
+  "author": "Dipish Bisht",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2"
