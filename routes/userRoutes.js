@@ -3,47 +3,38 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 /*
- * ROUTES EXPLANATION:
- * Routes map HTTP methods + URL patterns to controller functions
- * 
- * Pattern: router.METHOD(path, controllerFunction)
- * 
- * The path here is relative to /api/users (set in server.js)
- * So '/' here actually means '/api/users'
+ * ADVANCED ROUTING:
+ * - GET /api/users - Get all users (supports query params)
+ * - GET /api/users/stats - Get user statistics
+ * - GET /api/users/:id - Get single user
+ * - POST /api/users - Create user
+ * - PUT /api/users/:id - Full update
+ * - PATCH /api/users/:id - Partial update
+ * - DELETE /api/users/:id - Delete user
  */
 
-/*
- * RESTful Route Pattern:
- * Collection: /api/users
- * Individual: /api/users/:id
- * 
- * :id is a route parameter - it's a placeholder for the actual ID
- */
+// IMPORTANT: Specific routes MUST come before parameterized routes
+// Otherwise /stats would be treated as an ID
 
-// GET /api/users - Get all users
+// GET /api/users/stats - Statistics endpoint
+router.get('/stats', userController.getUserStats);
+
+// GET /api/users - Get all users with filtering, sorting, pagination
 router.get('/', userController.getAllUsers);
 
 // GET /api/users/:id - Get single user
-// Example: GET /api/users/1
 router.get('/:id', userController.getUserById);
 
 // POST /api/users - Create new user
 router.post('/', userController.createUser);
 
-// PUT /api/users/:id - Update user
-// Example: PUT /api/users/1
+// PUT /api/users/:id - Full update
 router.put('/:id', userController.updateUser);
 
-// DELETE /api/users/:id - Delete user
-// Example: DELETE /api/users/1
-router.delete('/:id', userController.deleteUser);
+// PATCH /api/users/:id - Partial update
+router.patch('/:id', userController.patchUser);
 
-/*
- * CRUD MAPPING (Standard REST pattern):
- * Create  → POST   /api/users
- * Read    → GET    /api/users (all) or /api/users/:id (one)
- * Update  → PUT    /api/users/:id
- * Delete  → DELETE /api/users/:id
- */
+// DELETE /api/users/:id - Delete user
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;

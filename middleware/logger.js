@@ -9,19 +9,23 @@
  */
 
 const logger = (req, res, next) => {
-  // Get current timestamp
   const timestamp = new Date().toISOString();
   
-  // Log request details
+  console.log(`\n${'='.repeat(60)}`);
   console.log(`[${timestamp}] ${req.method} ${req.url}`);
   
-  // Log request body if present (for POST/PUT)
+  // Log query parameters if present
+  if (Object.keys(req.query).length > 0) {
+    console.log('Query Params:', JSON.stringify(req.query, null, 2));
+  }
+  
+  // Log request body if present
   if (req.body && Object.keys(req.body).length > 0) {
     console.log('Request Body:', JSON.stringify(req.body, null, 2));
   }
   
-  // IMPORTANT: Call next() to pass control to the next middleware/route
-  // Without this, the request will hang!
+  console.log(`${'='.repeat(60)}\n`);
+  
   next();
 };
 
